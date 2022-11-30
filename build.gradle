@@ -1,0 +1,13 @@
+plugins {
+    id 'java'
+//    id "nebula.lint" version "17.5.0"
+}
+
+//gradleLint.rules += 'unused-dependency'
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
