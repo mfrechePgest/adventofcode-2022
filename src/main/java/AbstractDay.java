@@ -1,24 +1,31 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Objects;
 
-public abstract class AbstractDay {
+public abstract class AbstractDay<STEP1, STEP2> {
+    private final String fileName;
 
-    BufferedReader br;
-    protected String currentLine;
-
-    public void openFile(String fileName) throws IOException {
-        br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(fileName)));
-        currentLine = br.readLine();
+    public AbstractDay(String fileName) {
+        this.fileName = fileName;
     }
 
-    void closeFile() throws IOException {
-        br.close();
+    public abstract STEP1 resultStep1();
+    public abstract STEP2 resultStep2();
+
+    public abstract void readFile() throws IOException;
+
+    public STEP1 step1() throws IOException {
+        readFile();
+        return resultStep1();
     }
 
-    boolean hasMoreLines() {
-        return currentLine != null;
+    public STEP2 step2() throws IOException {
+        readFile();
+        return resultStep2();
     }
 
-    public abstract void readLine() throws IOException;
+    protected BufferedReader getReader(Class<? extends AbstractDay<STEP1, STEP2>> clazz) {
+        return new BufferedReader(new InputStreamReader(Objects.requireNonNull(clazz.getResourceAsStream(fileName))));
+    }
 }

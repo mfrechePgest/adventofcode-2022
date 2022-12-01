@@ -9,16 +9,16 @@ public class Day1Test {
 
     @Test
     public void step1Test() throws IOException {
-        Day1 day1 = new Day1();
-        Long result = day1.step1(SAMPLE_FILE);
+        Day1 day1 = new Day1(SAMPLE_FILE);
+        Long result = day1.step1();
         Assertions.assertEquals(24000, result);
     }
 
 
     @Test
     public void step2Test() throws IOException {
-        Day1 day1 = new Day1();
-        Long result = day1.step2(SAMPLE_FILE);
+        Day1 day1 = new Day1(SAMPLE_FILE);
+        Long result = day1.step2();
         Assertions.assertEquals(45000, result);
     }
 
