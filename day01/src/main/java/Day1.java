@@ -20,15 +20,7 @@ public class Day1 extends AbstractDay<Long, Long> {
 
     public static void main(String[] args) throws IOException {
         Day1 day1 = new Day1();
-        day1.readFile();
-
-        System.out.println("Step 1 : most Calories Elf is = " + ConsoleColors.cyan(day1.top3.get(0).getKey()) +
-                " ; calories Count = " + ConsoleColors.cyan(day1.resultStep1()));
-        System.out.println("Step 2 : Top Three elves are :");
-        for (Map.Entry<Integer, Long> e : day1.top3) {
-            System.out.println("    " + ConsoleColors.cyan(e.toString()));
-        }
-        System.out.println("TOTAL : " + ConsoleColors.cyan(day1.resultStep2()));
+        day1.fullRun();
     }
     
 
@@ -57,6 +49,10 @@ public class Day1 extends AbstractDay<Long, Long> {
             }
         }
         top3 = findTop3Elves(caloriesPerElf);
+        System.out.println("Step 2 : Top Three elves are :");
+        for (Map.Entry<Integer, Long> e : top3) {
+            System.out.println("    " + ConsoleColors.cyan(e.toString()));
+        }
     }
 
     private List<Map.Entry<Integer, Long>> findTop3Elves(Map<Integer, Long> caloriesPerElf) {

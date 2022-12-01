@@ -28,4 +28,11 @@ public abstract class AbstractDay<STEP1, STEP2> {
     protected BufferedReader getReader(Class<? extends AbstractDay<STEP1, STEP2>> clazz) {
         return new BufferedReader(new InputStreamReader(Objects.requireNonNull(clazz.getResourceAsStream(fileName))));
     }
+
+    protected void fullRun() throws IOException {
+        this.readFile();
+
+        System.out.println("Result step 1 = " + ConsoleColors.coloredString(resultStep1(), ConsoleColors.GREEN));
+        System.out.println("Result step 2 = " + ConsoleColors.coloredString(resultStep2(), ConsoleColors.GREEN));
+    }
 }
