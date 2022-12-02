@@ -8,10 +8,6 @@ public class Day2 extends AbstractDay<Long, Long> {
     private static final int DRAW = 3;
     private static final int LOSS = 0;
 
-    private static final int ROCK = 1;
-    private static final int PAPER = 2;
-    private static final int SCISSORS = 3;
-
     long score = 0;
     long step2Score = 0;
 
