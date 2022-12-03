@@ -63,21 +63,21 @@ public class Day3 extends AbstractDay<Long, Long> {
     }
 
     private List<Integer> convertStringToInts(String s) {
-
         return s.chars()
-            .map(i -> {
-                if ( i <= 122 && i >= 97 ) {
-                    // minuscules ASCII -> 1 à 26
-                    return i - 96;
-                } else if ( i <= 90 && i >= 65 ) {
-                    // majuscules  ASCII -> 27 à 52
-                    return i - 64 + 26;
-                }
-                throw new RuntimeException("Convert problem");
-            })
+            .map(this::charToAlphabeticalInt)
             .boxed()
             .toList();
+    }
 
+    private int charToAlphabeticalInt(int i) {
+        if ( i <= 122 && i >= 97 ) {
+            // lowercase ASCII -> 1 à 26
+            return i - 96;
+        } else if ( i <= 90 && i >= 65 ) {
+            // uppercase ASCII -> 27 à 52
+            return i - 64 + 26;
+        }
+        throw new RuntimeException("Convert problem");
     }
 
 

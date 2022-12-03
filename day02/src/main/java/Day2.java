@@ -44,15 +44,15 @@ public class Day2 extends AbstractDay<Long, Long> {
                 Play myPlay = Play.fromChar(chars[1]);
                 score += myPlay.score();
                 score += myPlay.fight(opp);
-                int expectedIssue = switch (chars[1]) {
+                int expectedOutcome = switch (chars[1]) {
                     case "X" -> LOSS;
                     case "Y" -> DRAW;
                     case "Z" -> WIN;
                     default -> throw new RuntimeException("Wat ?");
                 };
-                step2Score += expectedIssue;
+                step2Score += expectedOutcome;
                 step2Score += Arrays.stream(Play.values())
-                        .filter(p -> p.fight(opp) == expectedIssue)
+                        .filter(p -> p.fight(opp) == expectedOutcome)
                         .mapToInt(Play::score)
                         .findAny()
                         .orElseThrow(() -> new RuntimeException("Oups"));
