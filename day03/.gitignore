@@ -75,10 +75,3 @@ fabric.properties
 
 /.gradle/
 /build/
-
-# VS code build files
-bin/
-.vscode/
-
-# Fleet
-.fleet/
