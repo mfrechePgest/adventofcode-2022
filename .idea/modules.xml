@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adventofcode.iml" filepath="$PROJECT_DIR$/.idea/modules/adventofcode.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day01/adventofcode.day01.iml" filepath="$PROJECT_DIR$/.idea/modules/day01/adventofcode.day01.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day01/adventofcode.day01.main.iml" filepath="$PROJECT_DIR$/.idea/modules/day01/adventofcode.day01.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/day01/adventofcode.day01.test.iml" filepath="$PROJECT_DIR$/.idea/modules/day01/adventofcode.day01.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day02/adventofcode.day02.iml" filepath="$PROJECT_DIR$/.idea/modules/day02/adventofcode.day02.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day02/adventofcode.day02.main.iml" filepath="$PROJECT_DIR$/.idea/modules/day02/adventofcode.day02.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day02/adventofcode.day02.test.iml" filepath="$PROJECT_DIR$/.idea/modules/day02/adventofcode.day02.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day03/adventofcode.day03.iml" filepath="$PROJECT_DIR$/.idea/modules/day03/adventofcode.day03.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day03/adventofcode.day03.main.iml" filepath="$PROJECT_DIR$/.idea/modules/day03/adventofcode.day03.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/day03/adventofcode.day03.test.iml" filepath="$PROJECT_DIR$/.idea/modules/day03/adventofcode.day03.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adventofcode.main.iml" filepath="$PROJECT_DIR$/.idea/modules/adventofcode.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/adventofcode.test.iml" filepath="$PROJECT_DIR$/.idea/modules/adventofcode.test.iml" />
     </modules>
   </component>
 </project>
