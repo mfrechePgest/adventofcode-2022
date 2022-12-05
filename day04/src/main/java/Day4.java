@@ -1,12 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class Day4 extends AbstractDay<Long, Long> {
+public class Day4 extends AbstractMultiStepDay<Long, Long> {
 
 
     private long firstStepScore = 0;

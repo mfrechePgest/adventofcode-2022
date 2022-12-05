@@ -2,7 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Day2 extends AbstractDay<Long, Long> {
+public class Day2 extends AbstractMultiStepDay<Long, Long> {
 
     public static final int WIN = 6;
     private static final int DRAW = 3;

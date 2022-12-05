@@ -1,4 +1,4 @@
-public class Day1Test extends AbstractDayTest<Day1, Long, Long> {
+public class Day1Test extends AbstractMultiStepDayTest<Day1, Long, Long> {
 
     public static final String SAMPLE_FILE = "sample.txt";
 

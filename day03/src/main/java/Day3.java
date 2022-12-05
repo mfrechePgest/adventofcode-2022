@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Day3 extends AbstractDay<Long, Long> {
+public class Day3 extends AbstractMultiStepDay<Long, Long> {
 
 
     private long firstStepScore = 0;

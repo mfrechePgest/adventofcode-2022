@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.function.Supplier;
 
-public abstract class AbstractDayTest<DAY extends AbstractDay<STEP1, STEP2>, STEP1, STEP2> {
+public abstract class AbstractMultiStepDayTest<DAY extends AbstractMultiStepDay<STEP1, STEP2>, STEP1, STEP2> {
 
     private final Supplier<DAY> daySupplier;
     private final STEP1 expected1;
     private final STEP2 expected2;
 
-    public AbstractDayTest(Supplier<DAY> daySupplier, STEP1 expected1, STEP2 expected2) {
+    public AbstractMultiStepDayTest(Supplier<DAY> daySupplier, STEP1 expected1, STEP2 expected2) {
         this.daySupplier = daySupplier;
         this.expected1 = expected1;
         this.expected2 = expected2;

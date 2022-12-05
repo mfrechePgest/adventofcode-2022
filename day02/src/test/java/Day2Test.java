@@ -1,7 +1,7 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class Day2Test extends AbstractDayTest<Day2, Long, Long> {
+public class Day2Test extends AbstractMultiStepDayTest<Day2, Long, Long> {
 
     public static final String SAMPLE_FILE = "sample.txt";
 

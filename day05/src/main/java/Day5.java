@@ -1,23 +1,18 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-public class Day5 extends AbstractDay<Long, Long> {
+public class Day5 extends AbstractMultiStepDay<String, String> {
 
-
-    private long firstStepScore = 0;
-    private long secondStepScore = 0;
+    Day5Step1 step1;
+    Day5Step2 step2;
 
     public Day5(String fileName) {
         super(fileName);
+        step1 = new Day5Step1(fileName);
+        step2 = new Day5Step2(fileName);
     }
 
     public Day5() {
-        super("input.txt");
+        this("input.txt");
     }
 
     public static void main(String[] args) throws IOException {
@@ -25,28 +20,19 @@ public class Day5 extends AbstractDay<Long, Long> {
         day5.fullRun();
     }
 
-
-    public Long resultStep1() {
-        return firstStepScore;
-    }
-
-    public Long resultStep2() {
-        return secondStepScore;
-    }
-
-
+    @Override
     public void readFile() throws IOException {
-        try (BufferedReader br = getReader(this.getClass())) {
-            String line = br.readLine();
-
-            while (line != null) {
-                // TODO
-                line = br.readLine();
-            }
-        }
+        step1.readFile();
+        step2.readFile();
     }
 
+    @Override
+    public String resultStep1() {
+        return step1.result();
+    }
 
-
-
+    @Override
+    public String resultStep2() {
+        return step2.result();
+    }
 }

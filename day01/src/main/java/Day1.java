@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Day1 extends AbstractDay<Long, Long> {
+public class Day1 extends AbstractMultiStepDay<Long, Long> {
 
     private final Map<Integer, Long> caloriesPerElf = new HashMap<>();
     private List<Map.Entry<Integer, Long>> top3;

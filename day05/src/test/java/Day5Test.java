@@ -1,11 +1,11 @@
 
 
-public class Day5Test extends AbstractDayTest<Day5, Long, Long> {
+public class Day5Test extends AbstractMultiStepDayTest<Day5, String, String> {
 
     public static final String SAMPLE_FILE = "sample.txt";
 
     public Day5Test() {
-        super(() -> new Day5(SAMPLE_FILE), 0L, 0L);
+        super(() -> new Day5(SAMPLE_FILE), "CMZ", "MCD");
     }
 
 
