@@ -20,3 +20,26 @@ java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
 }
+
+tasks.register('createDay') {
+    if (project.hasProperty("day")) {
+        String day = project.getProperty("day")
+        println("Building project for day #" + day + "")
+        copy {
+            from fileTree('./template') {
+                exclude 'bin/'
+                exclude 'build/'
+                include '**'
+            }
+            into 'day' + day
+            rename 'DayTEMPLATE.java', 'Day' + day + '.java'
+            rename 'DayTEMPLATETest.java', 'Day' + day + 'Test.java'
+            filter {
+                line -> line.replaceAll('TEMPLATE', day)
+            }
+        }
+        new File('settings.gradle') << '\n' << 'include \'day' + day + '\''
+    } else {
+        println("Use property 'day' !")
+    }
+}
