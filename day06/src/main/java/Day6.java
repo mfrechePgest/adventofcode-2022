@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class Day6 extends AbstractMultiStepDay<Long, Long> {
 
@@ -39,12 +37,8 @@ public class Day6 extends AbstractMultiStepDay<Long, Long> {
             if (slice.size() > sliceSize) {
                 slice.removeFirst();
             }
-            if (slice.size() == sliceSize) {
-                if (slice.stream()
-                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                        .values().stream().noneMatch(count -> count > 1)) {
-                    return (long) i + 1;
-                }
+            if (slice.stream().distinct().count() == sliceSize) {
+                return (long) i + 1;
             }
         }
         return 0L;
