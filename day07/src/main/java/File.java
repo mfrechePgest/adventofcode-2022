@@ -6,6 +6,7 @@ public class File extends Directory {
         this.size = size;
     }
 
+    @Override
     public long getSize() {
         return size;
     }

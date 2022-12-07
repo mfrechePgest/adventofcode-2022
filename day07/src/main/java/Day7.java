@@ -3,6 +3,9 @@ import java.io.IOException;
 
 public class Day7 extends AbstractMultiStepDay<Long, Long> {
 
+    public static final long MAX_DIRECTORY_SIZE_STEP_1 = 100000L;
+    public static final long TOTAL_DISK_SPACE = 70000000L;
+    public static final long REQUIRED_UNUSED_SPACE = 30000000L;
     private final Directory fileSystem = new Directory("/", null);
     private Directory currentDir = fileSystem;
 
@@ -22,25 +25,23 @@ public class Day7 extends AbstractMultiStepDay<Long, Long> {
 
 
     public Long resultStep1() {
-        return fileSystem.content
-                .stream()
-                .flatMap(Directory::streamAllContent)
+        return fileSystem.streamAllContent()
+                .filter(d -> d.getParent() != null)
                 .filter(d -> !(d instanceof File))
                 .mapToLong(Directory::getSize)
-                .filter(size -> size <= 100000L)
+                .filter(size -> size <= MAX_DIRECTORY_SIZE_STEP_1)
                 .sum();
     }
 
     public Long resultStep2() {
         long totalSize = fileSystem.getSize();
         System.out.println("Total current system size = " + ConsoleColors.cyan(totalSize));
-        long unusedSpace = 70000000L - totalSize;
+        long unusedSpace = TOTAL_DISK_SPACE - totalSize;
         System.out.println("Unused space = " + ConsoleColors.cyan(unusedSpace));
-        long neededSpace = 30000000L - unusedSpace;
+        long neededSpace = REQUIRED_UNUSED_SPACE - unusedSpace;
         System.out.println("Neededspace = " + ConsoleColors.cyan(neededSpace));
-        return fileSystem.content
-                .stream()
-                .flatMap(Directory::streamAllContent)
+        return fileSystem.streamAllContent()
+                .filter(d -> d.getParent() != null)
                 .filter(d -> !(d instanceof File))
                 .mapToLong(Directory::getSize)
                 .filter(size -> size >= neededSpace)
@@ -61,21 +62,18 @@ public class Day7 extends AbstractMultiStepDay<Long, Long> {
                         if (dest.equals("/")) {
                             currentDir = fileSystem;
                         } else if (dest.equals("..")) {
-                            currentDir = currentDir.parent;
+                            currentDir = currentDir.getParent();
                         } else {
-                            currentDir = currentDir.content.stream()
-                                    .filter(c -> c.getName().equals(dest))
-                                    .findFirst()
-                                    .orElseThrow(() -> new RuntimeException("Oops"));
+                            currentDir = currentDir.getSubDir(dest);
                         }
                     }
                 } else {
                     // résultat ls
                     if (line.startsWith("dir")) {
-                        currentDir.content.add(new Directory(line.substring(4), currentDir));
+                        currentDir.addContent(new Directory(line.substring(4), currentDir));
                     } else {
                         String[] split = line.split(" ");
-                        currentDir.content.add(new File(split[1], currentDir, Long.parseLong(split[0])));
+                        currentDir.addContent(new File(split[1], currentDir, Long.parseLong(split[0])));
                     }
                 }
 
