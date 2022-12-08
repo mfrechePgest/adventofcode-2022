@@ -1,7 +1,4 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Objects;
 
 public abstract class AbstractMultiStepDay<STEP1, STEP2> extends AbstractDay {
 
