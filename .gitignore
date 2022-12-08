@@ -82,3 +82,5 @@ bin/
 
 # Fleet
 .fleet/
+
+token.txt
