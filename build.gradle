@@ -24,6 +24,7 @@ java {
 tasks.register('createDay') {
     if (project.hasProperty("day")) {
         String day = project.getProperty("day")
+        String year = "2022"
         println("Building project for day #" + day + "")
         copy {
             from fileTree('./template') {
@@ -39,6 +40,27 @@ tasks.register('createDay') {
             }
         }
         new File('settings.gradle') << '\n' << 'include \'day' + day + '\''
+
+        // get input data
+        String inputUrl = "https://adventofcode.com/$year/day/${Integer.parseInt(day)}/input"
+        File tokenFile = rootProject.file("token.txt")
+        if (tokenFile.exists()) {
+            String sessionId = tokenFile.getText()
+            HttpURLConnection req = new URL(inputUrl).openConnection()
+            req.setRequestProperty("Cookie", "session=$sessionId")
+            println("URL " + inputUrl)
+            println("Headers : " + req.getRequestProperties())
+            if (req.getResponseCode() == 200) {
+                String inputData = req.getInputStream().getText()
+                println("Input  data file  retrieved")
+                new File('day' + day + '/src/main/resources/input.txt') << inputData.trim()
+            } else {
+                println("Input data file not available: reponse=${req.getResponseCode()}")
+                println("Body : \n${req.getInputStream().getText()}")
+            }
+        } else {
+            println("token.txt is needed to fetch input.txt automatically")
+        }
     } else {
         println("Use property 'day' !")
     }
