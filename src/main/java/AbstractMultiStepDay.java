@@ -1,6 +1,22 @@
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public abstract class AbstractMultiStepDay<STEP1, STEP2> extends AbstractDay {
+
+    private List<String> emojis = Arrays.asList(
+                                        "🎅",
+                                        "🤶",
+                                        "🧝",
+                                        "🦌",
+                                        "❄️ ",
+                                        "☃️ ",
+                                        "⛄",
+                                        "🎄",
+                                        "🎁",
+                                        "🔔"
+                                    );
 
 
     public AbstractMultiStepDay(String fileName) {
@@ -25,7 +41,11 @@ public abstract class AbstractMultiStepDay<STEP1, STEP2> extends AbstractDay {
     protected void fullRun() throws IOException {
         this.readFile();
 
-        System.out.println("Result step 1 = " + ConsoleColors.coloredString(resultStep1(), ConsoleColors.GREEN));
-        System.out.println("Result step 2 = " + ConsoleColors.coloredString(resultStep2(), ConsoleColors.GREEN));
+        System.out.println(randomEmoji() + " Result step 1 = " + ConsoleColors.coloredString(resultStep1(), ConsoleColors.GREEN));
+        System.out.println(randomEmoji() + " Result step 2 = " + ConsoleColors.coloredString(resultStep2(), ConsoleColors.GREEN));
+    }
+
+    private String randomEmoji() {
+        return emojis.get(ThreadLocalRandom.current().nextInt(emojis.size()));
     }
 }
