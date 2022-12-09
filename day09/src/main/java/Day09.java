@@ -1,14 +1,10 @@
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Day09 extends AbstractMultiStepDay<Integer, Integer> {
 
-    private List<String[]> moves = new ArrayList<>();
+    private final List<String[]> moves = new ArrayList<>();
 
     public Day09(String fileName) {
         super(fileName);
@@ -34,18 +30,15 @@ public class Day09 extends AbstractMultiStepDay<Integer, Integer> {
     }
 
     private Integer result(int ropeSize) {
-        Set<IntPair> visitedByTail = new HashSet<>();
-        LinkedList<IntPair> rope = new LinkedList<>();
+        Set<RopeKnot> visitedByTail = new HashSet<>();
+        LinkedList<RopeKnot> rope = new LinkedList<>();
         for (int i = 0; i < ropeSize; i++) {
-            rope.add(new IntPair(String.valueOf(i), 0, 0));
+            rope.add(new RopeKnot(String.valueOf(i), 0, 0));
         }
 
-        visitedByTail.add(new IntPair("", rope.getLast().x, rope.getLast().y));
+        visitedByTail.add(new RopeKnot("", rope.getLast().x, rope.getLast().y));
         for (String[] split : moves) {
-            System.out.println("Moving " + split[0] + " ; " + split[1]);
             move(rope, split[0], Integer.parseInt(split[1]), visitedByTail);
-            System.out.println("Head is in position " + rope.getFirst().x + "," + rope.getFirst().y);
-            System.out.println("Tail is in position " + rope.getLast().x + "," + rope.getLast().y);
         }
         return visitedByTail.size();
     }
@@ -61,30 +54,30 @@ public class Day09 extends AbstractMultiStepDay<Integer, Integer> {
         }
     }
 
-    private void move(LinkedList<IntPair> rope, String direction, int steps, Set<IntPair> visitedByTail) {
+    private void move(LinkedList<RopeKnot> rope, String direction, int steps, Set<RopeKnot> visitedByTail) {
         for (int i = 0; i < steps; i++) {
             move(rope.getFirst(), direction);
-            IntPair previousNode = rope.getFirst();
-            for (IntPair node : rope) {
-                if (previousNode != node) {
-                    if (Math.abs(node.x - previousNode.x) > 1 && node.y == previousNode.y ) {
-                        node.x += (previousNode.x - node.x) / Math.abs(previousNode.x - node.x);
-                    } else if (Math.abs(node.y - previousNode.y) > 1 && node.x == previousNode.x ) {
-                        node.y += (previousNode.y - node.y) / Math.abs(previousNode.y - node.y);
-                    } else if (Math.abs(node.x - previousNode.x) > 1 || Math.abs(node.y - previousNode.y) > 1) {
-                        node.x += (previousNode.x - node.x) / Math.abs(previousNode.x - node.x);
-                        node.y += (previousNode.y - node.y) / Math.abs(previousNode.y - node.y);                                                
+            RopeKnot previousKnot = rope.getFirst();
+            for (RopeKnot knot : rope) {
+                if (previousKnot != knot) {
+                    if (Math.abs(knot.x - previousKnot.x) > 1 && knot.y == previousKnot.y) {
+                        knot.x += (previousKnot.x - knot.x) / Math.abs(previousKnot.x - knot.x);
+                    } else if (Math.abs(knot.y - previousKnot.y) > 1 && knot.x == previousKnot.x) {
+                        knot.y += (previousKnot.y - knot.y) / Math.abs(previousKnot.y - knot.y);
+                    } else if (Math.abs(knot.x - previousKnot.x) > 1 || Math.abs(knot.y - previousKnot.y) > 1) {
+                        knot.x += (previousKnot.x - knot.x) / Math.abs(previousKnot.x - knot.x);
+                        knot.y += (previousKnot.y - knot.y) / Math.abs(previousKnot.y - knot.y);
                     } else {
                         break;
                     }
                 }
-                previousNode = node;
+                previousKnot = knot;
             }
-            visitedByTail.add(new IntPair("", rope.getLast().x, rope.getLast().y));
+            visitedByTail.add(new RopeKnot("", rope.getLast().x, rope.getLast().y));
         }
     }
 
-    private void move(IntPair target, String direction) {
+    private void move(RopeKnot target, String direction) {
         switch (direction) {
             case "R":
                 target.x++;
