@@ -4,7 +4,7 @@ import java.io.IOException;
 public class Day10 extends AbstractMultiStepDay<Long, String> {
 
     private long score1 = 0L;
-    private String crtDraw = "\n";
+    private String crtDraw = "";
 
     public Day10(String fileName) {
         super(fileName);
@@ -56,7 +56,6 @@ public class Day10 extends AbstractMultiStepDay<Long, String> {
             crtDraw += ".";
         }
 
-
         if (stepModulo == 0) {
             crtDraw += "\n";
         }
@@ -72,6 +71,13 @@ public class Day10 extends AbstractMultiStepDay<Long, String> {
         }
 
         return result;
+    }
+
+    @Override
+    protected String formatResult2(String result2) {
+        return "\n" +
+                result2.replaceAll("\\.", ConsoleColors.coloredString(".", ConsoleColors.RED))
+                        .replaceAll("#", ConsoleColors.coloredString("█", ConsoleColors.GREEN));
     }
 
 }
