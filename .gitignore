@@ -83,4 +83,9 @@ bin/
 # Fleet
 .fleet/
 
+day*/bin/
+day*/build/
+template/build/
+template/bin/
+
 token.txt
