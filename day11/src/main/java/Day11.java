@@ -26,7 +26,7 @@ public class Day11 extends AbstractMultiStepDay<Long, Long> {
         Map<Integer, Monkey> monkeys = monkeyList.stream()
                 .map(Monkey::new)
                 .collect(Collectors.toMap(Monkey::getIdx, Function.identity()));
-        playRound(monkeys,20, true);
+        playRound(monkeys, 20, true);
         return monkeys.values().stream()
                 .mapToLong(Monkey::getTotalInspectedItems)
                 .map(l -> -l).sorted().map(l -> -l)
@@ -48,6 +48,12 @@ public class Day11 extends AbstractMultiStepDay<Long, Long> {
 
     private void playRound(Map<Integer, Monkey> monkeys, int roundCount, boolean applyBoredom) {
         for (int i = 0; i < roundCount; i++) {
+            if (i == 1 || i == 20 || (i > 0 && i % 1000 == 0)) {
+                System.out.println("== After round " + i + " == ");
+                for (Monkey monkey : monkeys.values()) {
+                    System.out.printf("Monkey %s inspected items %s times.\n", monkey.getIdx(), monkey.getTotalInspectedItems());
+                }
+            }
             for (Monkey monkey : monkeys.values()) {
                 monkey.playRound(monkeys, applyBoredom);
             }
@@ -74,14 +80,15 @@ public class Day11 extends AbstractMultiStepDay<Long, Long> {
                 } else if (line.trim().startsWith("Test:")) {
                     Objects.requireNonNull(finalMonkey).setTest(line.split(": ")[1]);
                 } else if (line.trim().startsWith("If true")) {
-                    Objects.requireNonNull(finalMonkey).setNextMonkeyIfTestTrue(Integer.parseInt(line.trim().split(" ")[5]));
+                    Objects.requireNonNull(finalMonkey)
+                            .setNextMonkeyIfTestTrue(Integer.parseInt(line.trim().split(" ")[5]));
                 } else if (line.trim().startsWith("If false")) {
-                    Objects.requireNonNull(finalMonkey).setNextMonkeyIfTestFalse(Integer.parseInt(line.trim().split(" ")[5]));
+                    Objects.requireNonNull(finalMonkey)
+                            .setNextMonkeyIfTestFalse(Integer.parseInt(line.trim().split(" ")[5]));
                 }
                 line = br.readLine();
             }
         }
     }
-
 
 }

@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 public class Monkey {
 
-    private int monkeyIdx;
-    private List<Item> items;
+    private final int monkeyIdx;
+    private final List<Item> items;
     private long totalInspectedItems;
 
     private Function<BigInteger, BigInteger> operation;
@@ -41,9 +41,10 @@ public class Monkey {
         String[] split = operationString.split(" ");
         String signe = split[3];
         String multiplier = split[4];
+        BigInteger bigIntMultiply = (multiplier.equals("old") ? null : new BigInteger(multiplier));
         operation = switch (signe) {
-            case "+" -> l -> (l.add((multiplier.equals("old") ? l : new BigInteger(multiplier))));
-            case "*" -> l -> (l.multiply(multiplier.equals("old") ? l : new BigInteger(multiplier)));
+            case "+" -> l -> (l.add(bigIntMultiply == null ? l : bigIntMultiply));
+            case "*" -> l -> (l.multiply(bigIntMultiply == null ? l : bigIntMultiply));
             default -> throw new RuntimeException("Unsupported");
         };
     }
@@ -79,7 +80,7 @@ public class Monkey {
         return operation;
     }
 
-    public int getNextMonkey(Item item) {
+    private int getNextMonkey(Item item) {
         return test.test(item.getWorryLevel()) ? nextMonkeyIfTrue : nextMonkeyIfFalse;
     }
 
