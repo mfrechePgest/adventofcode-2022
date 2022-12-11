@@ -21,4 +21,8 @@ public class Item {
     public BigInteger getWorryLevel() {
         return worryLevel;
     }
+
+    public void reduce(BigInteger lcm) {
+        worryLevel = worryLevel.mod(lcm);
+    }
 }

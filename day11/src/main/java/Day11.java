@@ -26,7 +26,8 @@ public class Day11 extends AbstractMultiStepDay<Long, Long> {
         Map<Integer, Monkey> monkeys = monkeyList.stream()
                 .map(Monkey::new)
                 .collect(Collectors.toMap(Monkey::getIdx, Function.identity()));
-        playRound(monkeys, 20, true);
+        BigInteger lcm = findLcm(monkeys);
+        playRound(monkeys, 20, true, lcm);
         return monkeys.values().stream()
                 .mapToLong(Monkey::getTotalInspectedItems)
                 .map(l -> -l).sorted().map(l -> -l)
@@ -38,7 +39,8 @@ public class Day11 extends AbstractMultiStepDay<Long, Long> {
         Map<Integer, Monkey> monkeys = monkeyList.stream()
                 .map(Monkey::new)
                 .collect(Collectors.toMap(Monkey::getIdx, Function.identity()));
-        playRound(monkeys, 10000, false);
+        BigInteger lcm = findLcm(monkeys);
+        playRound(monkeys, 10000, false, lcm);
         return monkeys.values().stream()
                 .mapToLong(Monkey::getTotalInspectedItems)
                 .map(l -> -l).sorted().map(l -> -l)
@@ -46,7 +48,25 @@ public class Day11 extends AbstractMultiStepDay<Long, Long> {
                 .reduce(1, (a, b) -> a * b);
     }
 
-    private void playRound(Map<Integer, Monkey> monkeys, int roundCount, boolean applyBoredom) {
+    private static BigInteger findLcm(Map<Integer, Monkey> monkeys) {
+        BigInteger lcm = null;
+        for (Monkey m : monkeys.values()) {
+            if (lcm != null) {
+                lcm = lcm(lcm, m.getDivider());
+            } else {
+                lcm = m.getDivider();
+            }
+        }
+        return lcm;
+    }
+
+    private static BigInteger lcm(BigInteger number1, BigInteger number2) {
+        BigInteger gcd = number1.gcd(number2);
+        BigInteger absProduct = number1.multiply(number2).abs();
+        return absProduct.divide(gcd);
+    }
+
+    private void playRound(Map<Integer, Monkey> monkeys, int roundCount, boolean applyBoredom, BigInteger lcm) {
         for (int i = 0; i < roundCount; i++) {
             if (i == 1 || i == 20 || (i > 0 && i % 1000 == 0)) {
                 System.out.println("== After round " + i + " == ");
@@ -55,7 +75,7 @@ public class Day11 extends AbstractMultiStepDay<Long, Long> {
                 }
             }
             for (Monkey monkey : monkeys.values()) {
-                monkey.playRound(monkeys, applyBoredom);
+                monkey.playRound(monkeys, applyBoredom, lcm);
             }
         }
     }

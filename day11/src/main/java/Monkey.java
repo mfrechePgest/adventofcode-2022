@@ -16,6 +16,7 @@ public class Monkey {
     private Predicate<BigInteger> test;
     private int nextMonkeyIfTrue;
     private int nextMonkeyIfFalse;
+    private BigInteger divider;
 
     public Monkey(int idx) {
         this.monkeyIdx = idx;
@@ -31,6 +32,7 @@ public class Monkey {
         this.test = m.test;
         this.nextMonkeyIfFalse = m.nextMonkeyIfFalse;
         this.nextMonkeyIfTrue = m.nextMonkeyIfTrue;
+        this.divider = m.divider;
     }
 
     public void addItem(Item i) {
@@ -52,7 +54,7 @@ public class Monkey {
 
     public void setTest(String s) {
         String[] split = s.split(" ");
-        BigInteger divider = new BigInteger(split[2]);
+        divider = new BigInteger(split[2]);
         test = l -> l.mod(divider).equals(BigInteger.ZERO);
     }
 
@@ -84,17 +86,19 @@ public class Monkey {
         return test.test(item.getWorryLevel()) ? nextMonkeyIfTrue : nextMonkeyIfFalse;
     }
 
-    public void playRound(Map<Integer, Monkey> monkeys, boolean applyBoredom) {
-        items().forEach(item -> playRound(item, monkeys, applyBoredom));
+    public void playRound(Map<Integer, Monkey> monkeys, boolean applyBoredom, BigInteger lcm) {
+        items().forEach(item -> playRound(item, monkeys, applyBoredom, lcm));
         items.clear();
     }
 
-    public void playRound(Item item, Map<Integer, Monkey> monkeys, boolean applyBoredom) {
+    public void playRound(Item item, Map<Integer, Monkey> monkeys, boolean applyBoredom, BigInteger lcm) {
         totalInspectedItems++;
         item.apply(this.getOperation());
         if (applyBoredom) {
             item.applyBoredom();
         }
+        item.reduce(lcm);
+
         this.pass(item, monkeys.get(this.getNextMonkey(item)));
     }
 
@@ -105,5 +109,9 @@ public class Monkey {
     public String toString() {
         return "{" + monkeyIdx + "} " + totalInspectedItems + " = " +
                 items().stream().map(i -> i.getWorryLevel().toString()).collect(Collectors.joining(","));
+    }
+
+    public BigInteger getDivider() {
+        return divider;
     }
 }
