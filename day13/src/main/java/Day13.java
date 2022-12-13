@@ -105,7 +105,21 @@ public class Day13 extends AbstractMultiStepDay<Long, Long> {
                 signal.add(Integer.parseInt(line.substring(i, endInput)));
                 i = endInput;
             } else if (c == '[') {
-                int endInput = line.indexOf(']', i);
+                int endInput = i + 1;
+                int expectedClosingBraces = 0;
+                for (int j = i + 1; j < line.length() - 1 ; j++) {
+                    char c2 = line.charAt(j);
+                    if ( c2 == ']' ) {
+                        if (expectedClosingBraces == 0) {
+                            endInput = j;
+                            break;
+                        } else {
+                            expectedClosingBraces--;
+                        }
+                    } else if ( c2 == '[' ) {
+                        expectedClosingBraces++;
+                    }
+                }
                 signal.add(getSignal(line.substring(i, endInput + 1)));
                 i = endInput;
             }
