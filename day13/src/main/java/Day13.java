@@ -1,10 +1,13 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Stream;
 
-public class Day13 extends AbstractMultiStepDay<Long, Long> {
+public class Day13 extends AbstractMultiStepDay<Long, Integer> {
 
     private List<Map.Entry<List<Object>, List<Object>>> pairs = new ArrayList<>();
+    private final static List<Object> FIRST_DIVIDER = Collections.singletonList(Collections.singletonList(2));
+    private final static List<Object> SECOND_DIVIDER = Collections.singletonList(Collections.singletonList(6));
 
     public Day13(String fileName) {
         super(fileName);
@@ -68,8 +71,26 @@ public class Day13 extends AbstractMultiStepDay<Long, Long> {
         return result;
     }
 
-    public Long resultStep2() {
-        return 0L;
+    public Integer resultStep2() {
+        List<List<Object>> sortedList = Stream.concat(
+                        pairs.stream()
+                                .flatMap(e ->
+                                        Stream.of(e.getKey(),
+                                                e.getValue()
+                                        )
+                                ),
+                        Stream.of(FIRST_DIVIDER, SECOND_DIVIDER))
+                .sorted((p1, p2) -> comparePackets((List<Object>) p1, (List<Object>) p2))
+                .toList();
+        return (1 + sortedList.indexOf(FIRST_DIVIDER)) * (1 + sortedList.indexOf(SECOND_DIVIDER));
+    }
+
+    private int comparePackets(List<Object> p1, List<Object> p2) {
+        if (Boolean.TRUE.equals(isRightOrder(p1, p2))) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     public void readFile() throws IOException {
@@ -107,16 +128,16 @@ public class Day13 extends AbstractMultiStepDay<Long, Long> {
             } else if (c == '[') {
                 int endInput = i + 1;
                 int expectedClosingBraces = 0;
-                for (int j = i + 1; j < line.length() - 1 ; j++) {
+                for (int j = i + 1; j < line.length() - 1; j++) {
                     char c2 = line.charAt(j);
-                    if ( c2 == ']' ) {
+                    if (c2 == ']') {
                         if (expectedClosingBraces == 0) {
                             endInput = j;
                             break;
                         } else {
                             expectedClosingBraces--;
                         }
-                    } else if ( c2 == '[' ) {
+                    } else if (c2 == '[') {
                         expectedClosingBraces++;
                     }
                 }
