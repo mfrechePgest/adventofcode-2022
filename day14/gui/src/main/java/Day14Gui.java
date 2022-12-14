@@ -81,7 +81,8 @@ public class Day14Gui {
         currentSituation = event.grid;
         largeurCase = computeLargeurCase(event.highestX - event.lowestX, event.highestY - event.lowestY);
         cells = currentSituation.keySet().stream()
-                .map(dot -> new CellDisplay(dot, largeurCase))
+                .map(dot -> new CellDisplay(dot, largeurCase, dot.x() - event.lowestX, dot.y() - event.lowestX))
+                .filter(display -> display.getOriginX() > 0 && display.getOriginY() > 0) // dans le champ
                 .toList();
     }
 
