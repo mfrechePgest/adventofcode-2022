@@ -85,6 +85,8 @@ bin/
 
 day*/bin/
 day*/build/
+day*/gui/bin/
+day*/gui/build/
 template/build/
 template/bin/
 

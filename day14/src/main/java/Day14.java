@@ -2,23 +2,35 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 public class Day14 extends AbstractMultiStepDay<Long, Long> {
 
     public static final Coord SAND_DROP_ORIGIN = new Coord(500, 0);
-    private Map<Coord, Matter> grid = new HashMap<>();
-    private int highestY = Integer.MIN_VALUE;
-    private int lowestY = 0;
-    private int highestX = Integer.MIN_VALUE;
-    private int lowestX = Integer.MAX_VALUE;
+    private final BiConsumer<Map<Coord, Matter>, Coord> visualizationConsumer;
+    private Map<Coord, Matter> initialGrid = new HashMap<>();
+    public Map<Coord, Matter> grid = new HashMap<>();
+    public int highestY = Integer.MIN_VALUE;
+    public int lowestY = 0;
+    public int highestX = Integer.MIN_VALUE;
+    public int lowestX = Integer.MAX_VALUE;
+
+    public Day14(String fileName, BiConsumer<Map<Coord, Matter>, Coord> visualizationConsumer) {
+        super(fileName);
+        this.visualizationConsumer = visualizationConsumer;
+    }
 
     public Day14(String fileName) {
-        super(fileName);
+        this(fileName, null);
     }
 
     public Day14() {
-        super("input.txt");
+        this("input.txt");
+    }
+
+    public Day14(BiConsumer<Map<Coord, Matter>, Coord> visualizationConsumer) {
+        this("input.txt", visualizationConsumer);
     }
 
     public static void main(String[] args) throws IOException {
@@ -27,20 +39,20 @@ public class Day14 extends AbstractMultiStepDay<Long, Long> {
     }
 
     public Long resultStep1() {
-        Map<Coord, Matter> grid2 = new HashMap<>(grid);
+        grid = new HashMap<>(initialGrid);
         long round = 0;
         while (true) {
             round++;
-            Long endRound = dropSand(grid2, round, SAND_DROP_ORIGIN, false,
+            Long endRound = dropSand(round, false,
                     newSandPos1 -> newSandPos1.y() > highestY);
             if (endRound != null) return endRound - 1;
         }
     }
 
-    private String debugGrid(Map<Coord, Matter> grid, Coord currentSand) {
+    private String debugGrid(Coord currentSand) {
         StringBuilder debugString = new StringBuilder();
-        for (int y = lowestY ; y <= highestY ; y++ ) {
-            for (int x = lowestX ; x <= highestX ; x++ ) {
+        for (int y = lowestY; y <= highestY; y++) {
+            for (int x = lowestX; x <= highestX; x++) {
                 Coord coord = new Coord(x, y);
                 if (grid.containsKey(coord)) {
                     debugString.append(switch (grid.get(coord)) {
@@ -59,29 +71,36 @@ public class Day14 extends AbstractMultiStepDay<Long, Long> {
     }
 
     public Long resultStep2() {
-        Map<Coord, Matter> grid2 = new HashMap<>(grid);
+        grid = new HashMap<>(initialGrid);
         long round = 0;
         while (true) {
             round++;
-            Long endRound = dropSand(grid2, round, SAND_DROP_ORIGIN, true,
+            Long endRound = dropSand(round, true,
                     newSandPos1 -> newSandPos1.equals(SAND_DROP_ORIGIN));
             if (endRound != null) return endRound;
         }
     }
 
-    private Long dropSand(Map<Coord, Matter> grid2, long round, Coord sand, boolean invisibleFloor, Predicate<Coord> endCondition) {
+    private Long dropSand(long round, boolean invisibleFloor, Predicate<Coord> endCondition) {
+        Coord sand = SAND_DROP_ORIGIN;
+        if (visualizationConsumer != null) {
+            visualizationConsumer.accept(grid, sand);
+        }
         while (true) {
-            Coord newSandPos = sand.fallOneStep(grid2);
+            Coord newSandPos = sand.fallOneStep(grid);
+            if (visualizationConsumer != null) {
+                visualizationConsumer.accept(grid, sand);
+            }
             if (endCondition.test(newSandPos)) {
-                System.out.println("Grille : \n" + debugGrid(grid2, newSandPos));
+                System.out.println("Grille : \n" + debugGrid(newSandPos));
                 return round;
             }
             if (newSandPos.equals(sand)) {
-                grid2.put(newSandPos, Matter.SAND);
+                grid.put(newSandPos, Matter.SAND);
                 break;
             }
             if (invisibleFloor && (newSandPos.y() == highestY + 1)) {
-                grid2.put(newSandPos, Matter.SAND);
+                grid.put(newSandPos, Matter.SAND);
                 break;
             }
             sand = newSandPos;
@@ -99,9 +118,9 @@ public class Day14 extends AbstractMultiStepDay<Long, Long> {
                     String[] coords = point.split(",");
                     Coord coord = new Coord(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
                     if (previousCoord != null) {
-                        previousCoord.streamTo(coord).forEach(c -> grid.put(c, Matter.ROCK));
+                        previousCoord.streamTo(coord).forEach(c -> initialGrid.put(c, Matter.ROCK));
                     } else {
-                        grid.put(coord, Matter.ROCK);
+                        initialGrid.put(coord, Matter.ROCK);
                     }
                     previousCoord = coord;
                     if (coord.y() > highestY) {
