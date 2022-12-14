@@ -33,6 +33,7 @@ public class Day14Gui {
     private boolean resizeAnimation = false;
     private Long animationStart = null;
     Map<Coord, Matter> currentSituation = null;
+    private Coord previousSandPosition = Day14.SAND_DROP_ORIGIN;
 
 
     private final ImageParser resource_01 = ImageParser.load_image("logo_waterfall.png");
@@ -66,6 +67,14 @@ public class Day14Gui {
 
     private void computeMovements(Map<Coord, Matter> grid, Coord coord) {
         // TODO Ajouter des CellAnimation à la liste
+        if (coord.equals(Day14.SAND_DROP_ORIGIN)) {
+            // On a lancé un nouveau grain de sable, pas de movement mais on redessine
+            // TODO resize
+            initSituation();
+        } else {
+            movements.add(new CellAnimation(new CellDisplay(previousSandPosition, largeurCase), new CellDisplay(coord, largeurCase)));
+            previousSandPosition = coord;
+        }
     }
 
     private void initSituation() {

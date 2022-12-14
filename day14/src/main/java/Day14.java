@@ -138,6 +138,7 @@ public class Day14 extends AbstractMultiStepDay<Long, Long> {
                 }
                 line = br.readLine();
             }
+            grid = initialGrid;
         }
     }
 
