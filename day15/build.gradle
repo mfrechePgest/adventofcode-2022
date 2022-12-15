@@ -17,6 +17,9 @@ test {
 dependencies {
     implementation(parent)
     testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+
 }
 
 application {
