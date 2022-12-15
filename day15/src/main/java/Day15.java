@@ -8,19 +8,21 @@ import java.util.stream.IntStream;
 public class Day15 extends AbstractMultiStepDay<Long, Long> {
 
     private final int inspectedLine;
+    private final int upperBound;
     private final List<Sensor> sensors = new ArrayList<>();
 
-    public Day15(String fileName, int inspectedLine) {
+    public Day15(String fileName, int inspectedLine, int upperBound) {
         super(fileName);
         this.inspectedLine = inspectedLine;
+        this.upperBound = upperBound;
     }
 
-    public Day15(int inspectedLine) {
-        this("input.txt", inspectedLine);
+    public Day15(int inspectedLine, int upperBound) {
+        this("input.txt", inspectedLine, upperBound);
     }
 
     public static void main(String[] args) throws IOException {
-        Day15 day15 = new Day15(2000000);
+        Day15 day15 = new Day15(2000000, 4000000);
         day15.fullRun();
     }
 
